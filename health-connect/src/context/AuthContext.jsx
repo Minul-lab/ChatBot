@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { doctors, patients } from '../data/mockData';
 
 const AuthContext = createContext(null);
 
@@ -13,16 +14,39 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState(null);
 
-  const login = (user) => {
-    setCurrentUser(user);
+  const login = (email, password, loginType) => {
+    setError(null);
+    
+    // Find user based on login type
+    const userList = loginType === 'doctor' ? doctors : patients;
+    const user = userList.find(
+      u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    );
+
+    if (!user) {
+      setError(`Invalid ${loginType} credentials`);
+      throw new Error('Invalid credentials');
+    }
+
+    // Create user object for storage
+    const userObj = {
+      ...user,
+      role: loginType,
+      password: undefined // Don't store password in state/storage
+    };
+
+    setCurrentUser(userObj);
     setIsAuthenticated(true);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(userObj));
+    return userObj;
   };
 
   const logout = () => {
     setCurrentUser(null);
     setIsAuthenticated(false);
+    setError(null);
     localStorage.removeItem('user');
   };
 
@@ -36,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, isAuthenticated, login, logout, checkAuth }}>
+    <AuthContext.Provider value={{ currentUser, isAuthenticated, error, login, logout, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );

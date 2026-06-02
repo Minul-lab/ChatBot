@@ -7,23 +7,28 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [localError, setLocalError] = useState(null);
   const { login, error } = useAuth();
   const navigate = useNavigate();
   
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLocalError(null);
     
     if (!email || !password) {
+      setLocalError('Please enter both email and password');
       return;
     }
 
     setIsLoading(true);
     
     try {
-      await login(email, password, loginType);
-      navigate(loginType === 'doctor' ? '/doctor' : '/patient');
+      const user = await login(email, password, loginType);
+      console.log('Login successful:', user);
+      navigate(loginType === 'doctor' ? '/doctor' : '/patient', { replace: true });
     } catch (err) {
       console.error('Login failed:', err);
+      setLocalError(error || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
@@ -125,6 +130,19 @@ const Login = () => {
               fontSize: '14px'
             }}>
               ⚠️ {error}
+            </div>
+          )}
+
+          {localError && (
+            <div style={{ 
+              background: '#fee', 
+              color: '#c00', 
+              padding: '10px', 
+              borderRadius: '5px', 
+              marginBottom: '15px',
+              fontSize: '14px'
+            }}>
+              ⚠️ {localError}
             </div>
           )}
 
