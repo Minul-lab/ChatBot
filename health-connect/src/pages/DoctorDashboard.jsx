@@ -62,7 +62,7 @@ const DoctorDashboard = () => {
                     <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', color: 'white' }}>{selectedPatient.gender === 'Male' ? '👨' : '👩'}</div>
                     <div><h2 style={{ marginBottom: '5px' }}>{selectedPatient.name}</h2><p style={{ color: '#666' }}>{selectedPatient.age} years - {selectedPatient.gender} - Blood: <strong style={{ color: '#f44336' }}>{selectedPatient.bloodGroup}</strong></p></div>
                   </div>
-                  <button onClick={() => navigate(`/patient/profile/${selectedPatient.id}`)} className="btn btn-secondary">View Full Profile</button>
+                  <button onClick={() => { console.log('Navigating to:', `/patient/profile/${selectedPatient.id}`); navigate(`/patient/profile/${selectedPatient.id}`); }} className="btn btn-secondary">View Full Profile</button>
                 </div>
                 <div className="grid" style={{ marginBottom: '20px' }}>
                   <div className="card" style={{ background: '#fff3cd', border: '1px solid #ffc107' }}><strong>Allergies:</strong><p style={{ margin: '5px 0 0 0', fontSize: '14px' }}>{selectedPatient.allergies.length > 0 ? selectedPatient.allergies.join(', ') : 'None known'}</p></div>
