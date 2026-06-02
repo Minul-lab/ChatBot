@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { mockPatients, mockPrescriptions, mockTestReports, mockAppointments, mockMedicalHistory } from '../data/mockData';
+import { patients, prescriptions, testReports, appointments, medicalHistory } from '../data/mockData';
 
 const PatientProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
-  const patient = mockPatients.find(p => p.id === parseInt(id));
+  const patient = patients.find(p => p.id === parseInt(id));
   
   if (!patient) {
     return (
@@ -20,10 +20,10 @@ const PatientProfile = () => {
     );
   }
 
-  const prescriptions = mockPrescriptions.filter(p => p.patientId === patient.id);
-  const reports = mockTestReports.filter(r => r.patientId === patient.id);
-  const appointments = mockAppointments.filter(a => a.patientId === patient.id);
-  const history = mockMedicalHistory.filter(h => h.patientId === patient.id);
+  const prescriptions = prescriptions.filter(p => p.patientId === patient.id);
+  const reports = testReports.filter(r => r.patientId === patient.id);
+  const appointments = appointments.filter(a => a.patientId === patient.id);
+  const history = medicalHistory.filter(h => h.patientId === patient.id);
 
   return (
     <div style={{ minHeight: '100vh', background: '#f5f7fa' }}>

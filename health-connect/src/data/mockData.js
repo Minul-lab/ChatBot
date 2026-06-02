@@ -1,6 +1,61 @@
 // Mock data for the HealthConnect application
 
-export const mockPatients = [
+export const doctors = [
+  {
+    id: 1,
+    name: "Dr. Robert Wilson",
+    specialization: "Endocrinologist",
+    licenseNumber: "MD123456",
+    email: "dr.wilson@hospital.com",
+    password: "doctor123",
+    phone: "+1 (555) 111-2222",
+    hospital: "New York General Hospital",
+    experience: "15 years",
+    patientsCount: 245,
+    avatar: "👨‍⚕️"
+  },
+  {
+    id: 2,
+    name: "Dr. Amanda Lee",
+    specialization: "Cardiologist",
+    licenseNumber: "MD234567",
+    email: "dr.lee@hospital.com",
+    password: "doctor123",
+    phone: "+1 (555) 222-3333",
+    hospital: "Los Angeles Medical Center",
+    experience: "12 years",
+    patientsCount: 189,
+    avatar: "👩‍⚕️"
+  },
+  {
+    id: 3,
+    name: "Dr. James Martinez",
+    specialization: "Cardiothoracic Surgeon",
+    licenseNumber: "MD345678",
+    email: "dr.martinez@hospital.com",
+    password: "doctor123",
+    phone: "+1 (555) 333-4444",
+    hospital: "Chicago Heart Institute",
+    experience: "20 years",
+    patientsCount: 312,
+    avatar: "👨‍⚕️"
+  },
+  {
+    id: 4,
+    name: "Dr. Sarah Thompson",
+    specialization: "General Physician",
+    licenseNumber: "MD456789",
+    email: "dr.thompson@clinic.com",
+    password: "doctor123",
+    phone: "+1 (555) 444-5555",
+    hospital: "Houston Family Clinic",
+    experience: "8 years",
+    patientsCount: 428,
+    avatar: "👩‍⚕️"
+  }
+];
+
+export const patients = [
   {
     id: 1,
     name: "John Smith",
@@ -9,6 +64,7 @@ export const mockPatients = [
     bloodGroup: "O+",
     phone: "+1 (555) 123-4567",
     email: "john.smith@email.com",
+    password: "patient123",
     address: "123 Main St, New York, NY 10001",
     emergencyContact: "Jane Smith - +1 (555) 987-6543",
     allergies: ["Penicillin", "Peanuts"],
@@ -25,6 +81,7 @@ export const mockPatients = [
     bloodGroup: "A+",
     phone: "+1 (555) 234-5678",
     email: "sarah.j@email.com",
+    password: "patient123",
     address: "456 Oak Ave, Los Angeles, CA 90001",
     emergencyContact: "Mike Johnson - +1 (555) 876-5432",
     allergies: ["Shellfish"],
@@ -41,6 +98,7 @@ export const mockPatients = [
     bloodGroup: "B+",
     phone: "+1 (555) 345-6789",
     email: "m.chen@email.com",
+    password: "patient123",
     address: "789 Pine Rd, Chicago, IL 60601",
     emergencyContact: "Lisa Chen - +1 (555) 765-4321",
     allergies: ["Latex", "Aspirin"],
@@ -57,6 +115,7 @@ export const mockPatients = [
     bloodGroup: "AB+",
     phone: "+1 (555) 456-7890",
     email: "emily.d@email.com",
+    password: "patient123",
     address: "321 Elm St, Houston, TX 77001",
     emergencyContact: "Robert Davis - +1 (555) 654-3210",
     allergies: [],
@@ -67,7 +126,7 @@ export const mockPatients = [
   }
 ];
 
-export const mockPrescriptions = [
+export const prescriptions = [
   {
     id: 1,
     patientId: 1,
@@ -140,7 +199,7 @@ export const mockPrescriptions = [
   }
 ];
 
-export const mockTestReports = [
+export const testReports = [
   {
     id: 1,
     patientId: 1,
@@ -234,58 +293,8 @@ export const mockTestReports = [
   }
 ];
 
-export const mockDoctors = [
-  {
-    id: 1,
-    name: "Dr. Robert Wilson",
-    specialization: "Endocrinologist",
-    licenseNumber: "MD123456",
-    email: "r.wilson@hospital.com",
-    phone: "+1 (555) 111-2222",
-    hospital: "New York General Hospital",
-    experience: "15 years",
-    patientsCount: 245,
-    avatar: "👨‍⚕️"
-  },
-  {
-    id: 2,
-    name: "Dr. Amanda Lee",
-    specialization: "Cardiologist",
-    licenseNumber: "MD234567",
-    email: "a.lee@hospital.com",
-    phone: "+1 (555) 222-3333",
-    hospital: "Los Angeles Medical Center",
-    experience: "12 years",
-    patientsCount: 189,
-    avatar: "👩‍⚕️"
-  },
-  {
-    id: 3,
-    name: "Dr. James Martinez",
-    specialization: "Cardiothoracic Surgeon",
-    licenseNumber: "MD345678",
-    email: "j.martinez@hospital.com",
-    phone: "+1 (555) 333-4444",
-    hospital: "Chicago Heart Institute",
-    experience: "20 years",
-    patientsCount: 312,
-    avatar: "👨‍⚕️"
-  },
-  {
-    id: 4,
-    name: "Dr. Sarah Thompson",
-    specialization: "General Physician",
-    licenseNumber: "MD456789",
-    email: "s.thompson@clinic.com",
-    phone: "+1 (555) 444-5555",
-    hospital: "Houston Family Clinic",
-    experience: "8 years",
-    patientsCount: 428,
-    avatar: "👩‍⚕️"
-  }
-];
 
-export const mockAppointments = [
+export const appointments = [
   {
     id: 1,
     patientId: 1,
@@ -336,7 +345,7 @@ export const mockAppointments = [
   }
 ];
 
-export const mockMedicalHistory = [
+export const medicalHistory = [
   {
     id: 1,
     patientId: 1,

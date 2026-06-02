@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { mockPrescriptions, mockTestReports, mockAppointments, mockMedicalHistory } from '../data/mockData';
+import { prescriptions, testReports, appointments, medicalHistory } from '../data/mockData';
 
 const PatientDashboard = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
 
-  const patientPrescriptions = mockPrescriptions.filter(p => p.patientId === currentUser.id);
-  const patientReports = mockTestReports.filter(r => r.patientId === currentUser.id);
-  const patientAppointments = mockAppointments.filter(a => a.patientId === currentUser.id);
-  const patientHistory = mockMedicalHistory.filter(h => h.patientId === currentUser.id);
+  const patientPrescriptions = prescriptions.filter(p => p.patientId === currentUser.id);
+  const patientReports = testReports.filter(r => r.patientId === currentUser.id);
+  const patientAppointments = appointments.filter(a => a.patientId === currentUser.id);
+  const patientHistory = medicalHistory.filter(h => h.patientId === currentUser.id);
 
   const handleLogout = () => {
     logout();

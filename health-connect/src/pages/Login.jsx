@@ -1,38 +1,44 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { mockDoctors, mockPatients } from '../data/mockData';
 
 const Login = () => {
   const [loginType, setLoginType] = useState('patient');
-  const [selectedUser, setSelectedUser] = useState('');
-  const [error, setError] = useState('');
-  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, error } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogin = (e) => {
+  
+  const handleLogin = async (e) => {
     e.preventDefault();
     
-    if (!selectedUser) {
-      setError('Please select a user');
+    if (!email || !password) {
       return;
     }
 
-    const users = loginType === 'doctor' ? mockDoctors : mockPatients;
-    const user = users.find(u => u.id === parseInt(selectedUser));
-
-    if (user) {
-      login({
-        ...user,
-        role: loginType,
-        id: user.id
-      });
+    setIsLoading(true);
+    
+    try {
+      await login(email, password, loginType);
       navigate(loginType === 'doctor' ? '/doctor' : '/patient');
-    } else {
-      setError('User not found');
+    } catch (err) {
+      console.error('Login failed:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const fillDemoCredentials = (type) => {
+    if (type === 'patient') {
+      setEmail('john.smith@email.com');
+      setPassword('patient123');
+    } else {
+      setEmail('dr.wilson@hospital.com');
+      setPassword('doctor123');
+    }
+  };
+  
   return (
     <div style={{ 
       minHeight: '100vh', 
@@ -50,7 +56,7 @@ const Login = () => {
         <div style={{ display: 'flex', marginBottom: '30px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd' }}>
           <button
             type="button"
-            onClick={() => { setLoginType('patient'); setError(''); }}
+            onClick={() => { setLoginType('patient'); fillDemoCredentials('patient'); }}
             style={{
               flex: 1,
               padding: '12px',
@@ -66,7 +72,7 @@ const Login = () => {
           </button>
           <button
             type="button"
-            onClick={() => { setLoginType('doctor'); setError(''); }}
+            onClick={() => { setLoginType('doctor'); fillDemoCredentials('doctor'); }}
             style={{
               flex: 1,
               padding: '12px',
@@ -84,22 +90,29 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label className="form-label">
-              Select {loginType === 'doctor' ? 'Doctor' : 'Patient'} Account
-            </label>
-            <select
+            <label className="form-label">Email Address</label>
+            <input
+              type="email"
               className="input"
-              value={selectedUser}
-              onChange={(e) => setSelectedUser(e.target.value)}
-              style={{ marginBottom: 0 }}
-            >
-              <option value="">-- Choose an account --</option>
-              {(loginType === 'doctor' ? mockDoctors : mockPatients).map(user => (
-                <option key={user.id} value={user.id}>
-                  {loginType === 'doctor' ? user.name + ' - ' + user.specialization : user.name}
-                </option>
-              ))}
-            </select>
+              placeholder={`Enter ${loginType} email`}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ marginBottom: '15px' }}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="input"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ marginBottom: '15px' }}
+              required
+            />
           </div>
 
           {error && (
@@ -115,17 +128,25 @@ const Login = () => {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px', fontSize: '16px' }}>
-            🔐 Login to Dashboard
+          <button 
+            type="submit" 
+            className="btn btn-primary" 
+            style={{ width: '100%', padding: '14px', fontSize: '16px' }}
+            disabled={isLoading}
+          >
+            {isLoading ? '🔄 Logging in...' : '🔐 Login to Dashboard'}
           </button>
         </form>
 
         <div style={{ marginTop: '25px', padding: '15px', background: '#f9f9f9', borderRadius: '8px', fontSize: '13px' }}>
           <strong>ℹ️ Demo Accounts:</strong>
           <ul style={{ marginTop: '8px', paddingLeft: '20px', color: '#666' }}>
-            <li><strong>Patients:</strong> John Smith, Sarah Johnson, Michael Chen, Emily Davis</li>
-            <li><strong>Doctors:</strong> Dr. Robert Wilson, Dr. Amanda Lee, Dr. James Martinez</li>
+            <li><strong>Patient:</strong> john.smith@email.com / patient123</li>
+            <li><strong>Doctor:</strong> dr.wilson@hospital.com / doctor123</li>
           </ul>
+          <p style={{ marginTop: '8px', color: '#999', fontSize: '12px' }}>
+            💡 Click the Patient/Doctor tabs above to auto-fill credentials
+          </p>
         </div>
       </div>
     </div>

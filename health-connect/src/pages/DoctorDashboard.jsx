@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { mockPatients, mockPrescriptions, mockTestReports, mockAppointments, mockMedicalHistory } from '../data/mockData';
+import { patients, prescriptions, testReports, appointments, medicalHistory } from '../data/mockData';
 
 const DoctorDashboard = () => {
   const { currentUser, logout } = useAuth();
@@ -12,15 +12,15 @@ const DoctorDashboard = () => {
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
-  const filteredPatients = mockPatients.filter(patient =>
+  const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getPatientData = (patientId) => ({
-    prescriptions: mockPrescriptions.filter(p => p.patientId === patientId),
-    reports: mockTestReports.filter(r => r.patientId === patientId),
-    appointments: mockAppointments.filter(a => a.patientId === patientId),
-    history: mockMedicalHistory.filter(h => h.patientId === patientId)
+    prescriptions: prescriptions.filter(p => p.patientId === patientId),
+    reports: testReports.filter(r => r.patientId === patientId),
+    appointments: appointments.filter(a => a.patientId === patientId),
+    history: medicalHistory.filter(h => h.patientId === patientId)
   });
 
   return (
@@ -35,8 +35,8 @@ const DoctorDashboard = () => {
       <div className="container" style={{ marginTop: '30px' }}>
         <div className="grid" style={{ marginBottom: '30px' }}>
           <div className="stat-card"><div className="stat-number">{currentUser.patientsCount}</div><div className="stat-label">Total Patients</div></div>
-          <div className="stat-card" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}><div className="stat-number">{mockAppointments.filter(a => a.doctorId === currentUser.id).length}</div><div className="stat-label">Appointments</div></div>
-          <div className="stat-card" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}><div className="stat-number">{mockPrescriptions.filter(p => p.doctorId === currentUser.id).length}</div><div className="stat-label">Prescriptions</div></div>
+          <div className="stat-card" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}><div className="stat-number">{appointments.filter(a => a.doctorId === currentUser.id).length}</div><div className="stat-label">Appointments</div></div>
+          <div className="stat-card" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}><div className="stat-number">{prescriptions.filter(p => p.doctorId === currentUser.id).length}</div><div className="stat-label">Prescriptions</div></div>
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}><div className="stat-number">{currentUser.experience}</div><div className="stat-label">Experience</div></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '350px 1fr', gap: '20px' }}>
